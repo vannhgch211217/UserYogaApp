@@ -26,7 +26,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
   const fetchClasses = async () => {
     try {
-      const response = await axios.get("http://192.168.55.108:3000/api/allClasses");
+      const response = await axios.get("http://192.168.55.103:3000/api/allClasses");
       setClasses(response.data);
     } catch (error) {
       console.error("Error fetching classes:", error);
@@ -35,7 +35,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
   const fetchCourses = async () => {
     try {
-      const response = await axios.get("http://192.168.55.108:3000/api/allCourses");
+      const response = await axios.get("http://192.168.55.103:3000/api/allCourses");
       setCourses(response.data);
     } catch (error) {
       console.error("Error fetching courses:", error);

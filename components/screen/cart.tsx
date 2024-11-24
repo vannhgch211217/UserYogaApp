@@ -20,9 +20,9 @@ type CartScreenRouteProp = RouteProp<{ Cart: { cartItems: CartItem[] } }, "Cart"
 
 const CartScreen = () => {
   const route = useRoute<CartScreenRouteProp>();
-  const { cartItems } = route.params;
+  const initialCartItems = route.params.cartItems;
 
-  // State for email input
+  const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
   const [email, setEmail] = useState<string>("");
 
   const totalPrice = cartItems.reduce((sum, item) => {
@@ -30,9 +30,9 @@ const CartScreen = () => {
       const price = item.course.price;
       let priceAsNumber: number;
 
-      if (typeof price === 'string') {
+      if (typeof price === "string") {
         priceAsNumber = parseFloat(price);
-      } else if (typeof price === 'number') {
+      } else if (typeof price === "number") {
         priceAsNumber = price;
       } else {
         return sum; 
@@ -43,12 +43,11 @@ const CartScreen = () => {
   }, 0);
 
   const handleCheckout = async () => {
-    // Extract class IDs from cartItems
-    console.log("Cart Items:", cartItems)
-    const classIds = cartItems.map(item => item._id).filter(Boolean); // Ensure classId exists
+    console.log("Cart Items:", cartItems);
+    const classIds = cartItems.map(item => item._id).filter(Boolean); 
   
-    console.log("Email:", email); // Debugging: log the email
-    console.log("Class IDs:", classIds); // Debugging: log extracted class IDs
+    console.log("Email:", email); 
+    console.log("Class IDs:", classIds); 
   
     if (!email || classIds.length === 0) {
       Alert.alert("Error", "Please enter a valid email and ensure there are classes in your cart.");
@@ -56,7 +55,7 @@ const CartScreen = () => {
     }
   
     try {
-      const response = await fetch("http://192.168.55.105:3000/api/checkout", {
+      const response = await fetch("http://192.168.55.103:3000/api/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,9 +69,12 @@ const CartScreen = () => {
   
       const data = await response.json();
       Alert.alert("Success", data.message);
+
+      setEmail("");
+      setCartItems([]);
   
     } catch (error) {
-      Alert.alert("Error");
+      Alert.alert("Error", "Failed to checkout. Please try again.");
     }
   };
   
@@ -145,12 +147,12 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 15,
-    width: '100%',
+    width: "100%",
   },
 });
 

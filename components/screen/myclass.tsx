@@ -16,7 +16,7 @@ const MyClassScreen = () => {
 
   const fetchMyClasses = async () => {
     try {
-      const response = await axios.get("http://192.168.55.105:3000/api/allMyClass");
+      const response = await axios.get("http://192.168.55.103:3000/api/allMyClass");
       setMyClasses(response.data);
     } catch (error) {
       console.error("Error fetching my classes:", error);
@@ -25,7 +25,7 @@ const MyClassScreen = () => {
 
   const fetchClasses = async () => {
     try {
-      const response = await axios.get("http://192.168.55.105:3000/api/allClasses"); 
+      const response = await axios.get("http://192.168.55.103:3000/api/allClasses"); 
       setClasses(response.data);
     } catch (error) {
       console.error("Error fetching classes:", error); 
